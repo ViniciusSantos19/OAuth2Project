@@ -6,6 +6,8 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
+
 @Data
 public class Project {
     private Long id;
@@ -18,4 +20,5 @@ public class Project {
     private List<Milestone> milestones;
     private List<Task> tasks;
     private User manager;
+    private Set<User> members;
 }

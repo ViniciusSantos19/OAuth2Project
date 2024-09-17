@@ -1,8 +1,10 @@
 package com.example.demo.domain.task;
 
+import com.example.demo.domain.user.User;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Data
 public class Task {
@@ -14,8 +16,9 @@ public class Task {
     private LocalDateTime dueDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Set<User> members;
 
-    public Task(LocalDateTime createdAt, TaskPriority priority, LocalDateTime dueDate, TaskStatus status, String description, String title, Long id) {
+    public Task(LocalDateTime createdAt, TaskPriority priority, LocalDateTime dueDate, TaskStatus status, String description, String title, Long id, Set<User> members) {
         this.createdAt = createdAt;
         this.priority = priority;
         this.dueDate = dueDate;
@@ -23,5 +26,6 @@ public class Task {
         this.description = description;
         this.title = title;
         this.id = id;
+        this.members = members;
     }
 }

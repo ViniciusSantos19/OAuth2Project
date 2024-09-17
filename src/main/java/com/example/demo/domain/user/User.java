@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Data
 public class User {
@@ -14,7 +15,7 @@ public class User {
     private String email;
     private String password;
     private String fullName;
-    private Role role;
+    private Set<Role> roles;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -25,13 +26,13 @@ public class User {
     private List<Project> projects;
     private List<Task> tasks;
 
-    public User(Long id, String email, String username, String password, String fullName, Role role, LocalDateTime createdAt, String phoneNumber, String profilePicture, boolean status, List<Project> projects, List<Task> tasks) {
+    public User(Long id, String email, String username, String password, String fullName, Set<Role> roles, LocalDateTime createdAt, String phoneNumber, String profilePicture, boolean status, List<Project> projects, List<Task> tasks) {
         this.id = id;
         this.email = email;
         this.username = username;
         this.password = password;
         this.fullName = fullName;
-        this.role = role;
+        this.roles = roles;
         this.createdAt = createdAt;
         this.phoneNumber = phoneNumber;
         this.profilePicture = profilePicture;
