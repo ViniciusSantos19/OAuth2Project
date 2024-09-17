@@ -78,4 +78,17 @@ public class UserEntity implements UserDetails {
                 .map(role -> new SimpleGrantedAuthority(role.name()))
                 .collect(Collectors.toList());
     }
+
+    public UserEntity(String username, String email, String password, String fullName, Set<Role> roles, String phoneNumber, String profilePicture, boolean status, List<ProjectEntity> projects, Set<TaskEntity> tasks) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.fullName = fullName;
+        this.roles = roles;
+        this.phoneNumber = phoneNumber;
+        this.profilePicture = profilePicture;
+        this.status = status;
+        this.projects = projects;
+        this.tasks = tasks;
+    }
 }

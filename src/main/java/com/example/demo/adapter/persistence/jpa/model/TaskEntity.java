@@ -53,4 +53,13 @@ public class TaskEntity {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
+
+    public TaskEntity(Set<UserEntity> members, LocalDateTime dueDate, TaskPriority priority, TaskStatus status, String description, String title) {
+        this.members = members;
+        this.dueDate = dueDate;
+        this.priority = priority;
+        this.status = status;
+        this.description = description;
+        this.title = title;
+    }
 }
