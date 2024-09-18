@@ -1,11 +1,12 @@
 package com.example.demo.application.ports.persistence.user;
 
 import com.example.demo.domain.user.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface ReadUserPort {
     Optional<User> findById(Long id);
-    List<User> findAllUsers();
+    Page<User> findPaginated(Pageable pageable);
 }

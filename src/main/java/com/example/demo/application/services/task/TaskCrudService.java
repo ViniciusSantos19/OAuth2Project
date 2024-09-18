@@ -6,9 +6,9 @@ import com.example.demo.application.usecases.task.TaskCrudUseCase;
 import com.example.demo.domain.exceptions.NotFoundDomainException;
 import com.example.demo.domain.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.Collection;
 
 @Service
 public class TaskCrudService implements TaskCrudUseCase {
@@ -41,7 +41,7 @@ public class TaskCrudService implements TaskCrudUseCase {
     }
 
     @Override
-    public Collection<Task> findAllTasks() {
-        return  readTaskPort.getAll();
+    public Page<Task> findAllTasks(Pageable pageable) {
+        return  readTaskPort.findPaginated(pageable);
     }
 }

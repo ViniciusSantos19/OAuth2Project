@@ -6,10 +6,9 @@ import com.example.demo.application.usecases.user.UserCrudUseCase;
 import com.example.demo.domain.exceptions.NotFoundDomainException;
 import com.example.demo.domain.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.Collection;
-import java.util.List;
 
 @Service
 public class UserCrudService implements UserCrudUseCase {
@@ -42,7 +41,7 @@ public class UserCrudService implements UserCrudUseCase {
     }
 
     @Override
-    public Collection<User> findAllUser() {
-        return readUserPort.findAllUsers();
+    public Page<User> findAllUser(Pageable pageable) {
+        return readUserPort.findPaginated(pageable);
     }
 }
