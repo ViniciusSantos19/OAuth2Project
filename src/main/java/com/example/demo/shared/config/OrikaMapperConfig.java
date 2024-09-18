@@ -6,6 +6,7 @@ import com.example.demo.adapter.persistence.jpa.model.UserEntity;
 import com.example.demo.domain.managment.Project;
 import com.example.demo.domain.task.Task;
 import com.example.demo.domain.user.User;
+import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.springframework.context.annotation.Bean;
@@ -32,6 +33,11 @@ public class OrikaMapperConfig {
                 .register();
 
         return mapperFactory;
+    }
+
+    @Bean
+    MapperFacade mapperFacade(MapperFactory mapperFactory) {
+        return mapperFactory.getMapperFacade();
     }
 
 }
