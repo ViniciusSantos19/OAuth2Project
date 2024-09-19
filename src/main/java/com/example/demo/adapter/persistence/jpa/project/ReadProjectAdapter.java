@@ -18,24 +18,24 @@ public class ReadProjectAdapter implements ReadProjectPort {
 
     private final ProjectRepository projectRepository;
 
-    private final MapperFacade mapperFacade;
+    private final MapperFacade mapperJpaFacade;
 
-    public ReadProjectAdapter(ProjectRepository projectRepository, MapperFacade mapperFacade) {
+    public ReadProjectAdapter(ProjectRepository projectRepository, MapperFacade mapperJpaFacade) {
         this.projectRepository = projectRepository;
-        this.mapperFacade = mapperFacade;
+        this.mapperJpaFacade = mapperJpaFacade;
     }
 
     @Override
     public Optional<Project> findById(Long id) {
         return projectRepository
-                .findById(id).map(projectEntity -> mapperFacade.
+                .findById(id).map(projectEntity -> mapperJpaFacade.
                 map(projectEntity, Project.class));
     }
 
     @Override
     public Page<Project> findPaginated(Pageable pageable) {
         Page<ProjectEntity> projectEntities = projectRepository.findAll(pageable);
-        return projectEntities.map(projectEntity -> mapperFacade.map(projectEntity, Project.class));
+        return projectEntities.map(projectEntity -> mapperJpaFacade.map(projectEntity, Project.class));
     }
 
 }

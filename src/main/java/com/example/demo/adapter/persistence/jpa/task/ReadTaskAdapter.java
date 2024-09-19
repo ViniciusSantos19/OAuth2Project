@@ -16,22 +16,22 @@ public class ReadTaskAdapter implements ReadTaskPort {
 
     private final TaskRepository taskRepository;
 
-    private final MapperFacade mapperFacade;
+    private final MapperFacade mapperJpaFacade;
 
-    public ReadTaskAdapter(TaskRepository taskRepository, MapperFacade mapperFacade) {
+    public ReadTaskAdapter(TaskRepository taskRepository, MapperFacade mapperJpaFacade) {
         this.taskRepository = taskRepository;
-        this.mapperFacade = mapperFacade;
+        this.mapperJpaFacade = mapperJpaFacade;
     }
 
     @Override
     public Optional<Task> findById(Long id) {
         return taskRepository.findById(id)
-                .map(taskEntity -> mapperFacade.map(taskEntity, Task.class));
+                .map(taskEntity -> mapperJpaFacade.map(taskEntity, Task.class));
     }
 
     @Override
     public Page<Task> findPaginated(Pageable pageable) {
         Page<TaskEntity> tasks = taskRepository.findAll(pageable);
-        return tasks.map(taskEntity -> mapperFacade.map(taskEntity, Task.class));
+        return tasks.map(taskEntity -> mapperJpaFacade.map(taskEntity, Task.class));
     }
 }
