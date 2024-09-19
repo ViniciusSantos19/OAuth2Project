@@ -1,5 +1,6 @@
 package com.example.demo.shared.config;
 
+import com.example.demo.adapter.entrypoint.model.*;
 import com.example.demo.adapter.persistence.jpa.model.ProjectEntity;
 import com.example.demo.adapter.persistence.jpa.model.TaskEntity;
 import com.example.demo.adapter.persistence.jpa.model.UserEntity;
@@ -36,8 +37,40 @@ public class OrikaMapperConfig {
     }
 
     @Bean
-    MapperFacade mapperFacade(MapperFactory mapperFactory) {
-        return mapperFactory.getMapperFacade();
+    MapperFacade mapperJpaFacade(MapperFactory mapperJpaFactory) {
+        return mapperJpaFactory.getMapperFacade();
+    }
+
+    @Bean
+    MapperFactory mapperEntryPointFactory() {
+        MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+
+        mapperFactory.classMap(UserDto.class, User.class)
+                .byDefault()
+                .register();
+
+        mapperFactory.classMap(UserLoginDto.class, User.class)
+                .byDefault()
+                .register();
+
+        mapperFactory.classMap(UserSingUpDto.class, User.class)
+                        .byDefault()
+                        .register();
+
+        mapperFactory.classMap(ProjectDto.class, Project.class)
+                .byDefault()
+                .register();
+
+        mapperFactory.classMap(TaskDto.class, Task.class)
+                .byDefault()
+                .register();
+
+        return mapperFactory;
+    }
+
+    @Bean
+    MapperFacade mapperFacadeEntryPoint(MapperFactory mapperEntryPointFactory) {
+        return mapperEntryPointFactory.getMapperFacade();
     }
 
 }
