@@ -14,28 +14,28 @@ public class WriteUserAdapter implements WriteUserPort {
 
     private  final UserRepository userRepository;
 
-    private final MapperFacade mapperFacade;
+    private final MapperFacade mapperJpaFacade;
 
-    public WriteUserAdapter(UserRepository userRepository, MapperFacade mapperFacade) {
+    public WriteUserAdapter(UserRepository userRepository, MapperFacade mapperJpaFacade) {
         this.userRepository = userRepository;
-        this.mapperFacade = mapperFacade;
+        this.mapperJpaFacade = mapperJpaFacade;
     }
 
 
     @Override
     public User createNew(User user) {
-        UserEntity userEntity = mapperFacade.map(user, UserEntity.class);
+        UserEntity userEntity = mapperJpaFacade.map(user, UserEntity.class);
         UserEntity savedUser = userRepository.save(userEntity);
-        return mapperFacade.map(savedUser, User.class);
+        return mapperJpaFacade.map(savedUser, User.class);
     }
 
     @Override
     public Optional<User> update(User user) {
         return  userRepository.findById(user.getId())
                 .map(userEntity -> {
-                    mapperFacade.map(user, userEntity);
+                    mapperJpaFacade.map(user, userEntity);
                     userRepository.save(userEntity);
-                    return  mapperFacade.map(userEntity, User.class);
+                    return  mapperJpaFacade.map(userEntity, User.class);
                 });
     }
 

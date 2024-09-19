@@ -14,27 +14,27 @@ public class WriteTaskAdapter implements WriteTaskPort {
 
     private final TaskRepository taskRepository;
 
-    private final MapperFacade mapperFacade;
+    private final MapperFacade mapperJpaFacade;
 
-    public WriteTaskAdapter(TaskRepository taskRepository, MapperFacade mapperFacade) {
+    public WriteTaskAdapter(TaskRepository taskRepository, MapperFacade mapperJpaFacade) {
         this.taskRepository = taskRepository;
-        this.mapperFacade = mapperFacade;
+        this.mapperJpaFacade = mapperJpaFacade;
     }
 
     @Override
     public Task createNew(Task task) {
-        TaskEntity taskEntity = mapperFacade.map(task, TaskEntity.class);
+        TaskEntity taskEntity = mapperJpaFacade.map(task, TaskEntity.class);
         TaskEntity savedTask = taskRepository.save(taskEntity);
-        return mapperFacade.map(savedTask, Task.class);
+        return mapperJpaFacade.map(savedTask, Task.class);
     }
 
     @Override
     public Optional<Task> update(Task task) {
         return taskRepository.findById(task.getId())
                 .map(taskEntity -> {
-                     mapperFacade.map(task, taskEntity);
+                     mapperJpaFacade.map(task, taskEntity);
                     taskRepository.save(taskEntity);
-                    return  mapperFacade.map(taskEntity, Task.class);
+                    return  mapperJpaFacade.map(taskEntity, Task.class);
                 });
     }
 

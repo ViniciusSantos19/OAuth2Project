@@ -14,27 +14,27 @@ public class WriteProjectAdapter implements WriteProjectPort {
 
     private final ProjectRepository projectRepository;
 
-    private final MapperFacade mapperFacade;
+    private final MapperFacade mapperJpaFacade;
 
-    public WriteProjectAdapter(MapperFacade mapperFacade, ProjectRepository projectRepository) {
-        this.mapperFacade = mapperFacade;
+    public WriteProjectAdapter(MapperFacade mapperJpaFacade, ProjectRepository projectRepository) {
+        this.mapperJpaFacade = mapperJpaFacade;
         this.projectRepository = projectRepository;
     }
 
     @Override
     public Project createNew(Project project) {
-        ProjectEntity projectEntity = mapperFacade.map(project, ProjectEntity.class);
+        ProjectEntity projectEntity = mapperJpaFacade.map(project, ProjectEntity.class);
         ProjectEntity savedProjectEntity = projectRepository.save(projectEntity);
-        return mapperFacade.map(savedProjectEntity, Project.class);
+        return mapperJpaFacade.map(savedProjectEntity, Project.class);
     }
 
     @Override
     public Optional<Project> update(Project project) {
         return projectRepository.findById(project.getId())
                 .map(existingEntity -> {
-                    mapperFacade.map(project, existingEntity);
+                    mapperJpaFacade.map(project, existingEntity);
                     ProjectEntity updatedEntity = projectRepository.save(existingEntity);
-                    return mapperFacade.map(updatedEntity, Project.class);
+                    return mapperJpaFacade.map(updatedEntity, Project.class);
                 });
     }
 

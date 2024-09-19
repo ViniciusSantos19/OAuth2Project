@@ -16,24 +16,24 @@ public class ReadUserAdapter implements ReadUserPort {
 
     private final UserRepository userRepository;
 
-    private final MapperFacade mapperFacade;
+    private final MapperFacade mapperJpaFacade;
 
-    public ReadUserAdapter(UserRepository userRepository, MapperFacade mapperFacade) {
+    public ReadUserAdapter(UserRepository userRepository, MapperFacade mapperJpaFacade) {
         this.userRepository = userRepository;
-        this.mapperFacade = mapperFacade;
+        this.mapperJpaFacade = mapperJpaFacade;
     }
 
 
     @Override
     public Optional<User> findById(Long id) {
         return  userRepository.findById(id)
-                .map(userEntity -> mapperFacade.map(userEntity, User.class));
+                .map(userEntity -> mapperJpaFacade.map(userEntity, User.class));
     }
 
     @Override
     public Page<User> findPaginated(Pageable pageable) {
         Page<UserEntity> users = userRepository.findAll(pageable);
 
-        return  users.map(userEntity -> mapperFacade.map(userEntity, User.class));
+        return  users.map(userEntity -> mapperJpaFacade.map(userEntity, User.class));
     }
 }
