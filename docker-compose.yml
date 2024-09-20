@@ -3,9 +3,11 @@ services:
     image: postgres
     restart: always
     environment:
-     POSTGRES_PASSWORD:yourpasswordPOSTGRES_DB: bookstore
+      POSTGRES_PASSWORD: yourpassword
+      POSTGRES_DB: bookstore
     ports:
-    - "5432:5432"
+      - "5432:5432"
+
   mongodb:
     image: mongo
     restart: always
@@ -13,7 +15,8 @@ services:
       - "27017:27017"
     environment:
       MONGO_INITDB_DATABASE: bookstore
-    keycloak_db:
+
+  keycloak_db:
     image: postgres
     restart: always
     environment:
@@ -22,6 +25,7 @@ services:
       POSTGRES_PASSWORD: keycloakpassword
     ports:
       - "5433:5432"
+
   keycloak:
     image: bitnami/keycloak:latest
     restart: always
