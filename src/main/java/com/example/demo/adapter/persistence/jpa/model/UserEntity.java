@@ -18,13 +18,13 @@ import java.util.stream.Collectors;
 @Table(name = "users")
 public class UserEntity implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Automatically generates ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true) // Ensures the username is unique and not null
+    @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false, unique = true) // Ensures the email is unique and not null
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false) // Password cannot be null
@@ -53,15 +53,12 @@ public class UserEntity implements UserDetails {
     @Column(nullable = false)
     private boolean status;
 
-    // One-to-Many relationship with Project
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany()
     private List<ProjectEntity> projects;
 
-    // One-to-Many relationship with Task
     @ManyToMany(mappedBy = "members")
     private Set<TaskEntity> tasks;
 
-    // PrePersist and PreUpdate callbacks to set createdAt and updatedAt automatically
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();

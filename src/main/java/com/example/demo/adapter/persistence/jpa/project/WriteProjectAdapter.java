@@ -4,7 +4,8 @@ import com.example.demo.adapter.persistence.jpa.model.ProjectEntity;
 import com.example.demo.adapter.persistence.jpa.repository.ProjectRepository;
 import com.example.demo.application.ports.persistence.project.WriteProjectPort;
 import com.example.demo.domain.managment.Project;
-import ma.glasnost.orika.MapperFacade;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -14,27 +15,27 @@ public class WriteProjectAdapter implements WriteProjectPort {
 
     private final ProjectRepository projectRepository;
 
-    private final MapperFacade mapperJpaFacade;
+    private final ModelMapper modelMapper;
 
-    public WriteProjectAdapter(MapperFacade mapperJpaFacade, ProjectRepository projectRepository) {
-        this.mapperJpaFacade = mapperJpaFacade;
+    public WriteProjectAdapter(ModelMapper modelMapper, ProjectRepository projectRepository) {
+        this.modelMapper = modelMapper;
         this.projectRepository = projectRepository;
     }
 
     @Override
     public Project createNew(Project project) {
-        ProjectEntity projectEntity = mapperJpaFacade.map(project, ProjectEntity.class);
+        ProjectEntity projectEntity = modelMapper.map(project, ProjectEntity.class);
         ProjectEntity savedProjectEntity = projectRepository.save(projectEntity);
-        return mapperJpaFacade.map(savedProjectEntity, Project.class);
+        return modelMapper.map(savedProjectEntity, Project.class);
     }
 
     @Override
     public Optional<Project> update(Project project) {
         return projectRepository.findById(project.getId())
                 .map(existingEntity -> {
-                    mapperJpaFacade.map(project, existingEntity);
+                    modelMapper.map(project, existingEntity);
                     ProjectEntity updatedEntity = projectRepository.save(existingEntity);
-                    return mapperJpaFacade.map(updatedEntity, Project.class);
+                    return modelMapper.map(updatedEntity, Project.class);
                 });
     }
 

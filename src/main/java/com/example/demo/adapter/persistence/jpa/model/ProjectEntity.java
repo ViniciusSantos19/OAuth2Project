@@ -30,20 +30,16 @@ public class ProjectEntity {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    // One-to-Many relationship with Milestone
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MilestoneEntity> milestones;
 
-    // One-to-Many relationship with Task
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TaskEntity> tasks;
 
-    // Many-to-One relationship with User (Manager)
     @ManyToOne
     @JoinColumn(name = "manager_id")
     private UserEntity manager;
 
-    // Many-to-Many relationship with User (Members)
     @ManyToMany
     @JoinTable(
             name = "project_users", // Join table name

@@ -4,7 +4,8 @@ import com.example.demo.adapter.persistence.jpa.model.UserEntity;
 import com.example.demo.adapter.persistence.jpa.repository.UserRepository;
 import com.example.demo.application.ports.persistence.user.WriteUserPort;
 import com.example.demo.domain.user.User;
-import ma.glasnost.orika.MapperFacade;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -14,28 +15,28 @@ public class WriteUserAdapter implements WriteUserPort {
 
     private  final UserRepository userRepository;
 
-    private final MapperFacade mapperJpaFacade;
+    private final ModelMapper modelMapper;
 
-    public WriteUserAdapter(UserRepository userRepository, MapperFacade mapperJpaFacade) {
+    public WriteUserAdapter(UserRepository userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
-        this.mapperJpaFacade = mapperJpaFacade;
+        this.modelMapper = modelMapper;
     }
 
 
     @Override
     public User createNew(User user) {
-        UserEntity userEntity = mapperJpaFacade.map(user, UserEntity.class);
+        UserEntity userEntity = modelMapper.map(user, UserEntity.class);
         UserEntity savedUser = userRepository.save(userEntity);
-        return mapperJpaFacade.map(savedUser, User.class);
+        return modelMapper.map(savedUser, User.class);
     }
 
     @Override
     public Optional<User> update(User user) {
         return  userRepository.findById(user.getId())
                 .map(userEntity -> {
-                    mapperJpaFacade.map(user, userEntity);
+                    modelMapper.map(user, userEntity);
                     userRepository.save(userEntity);
-                    return  mapperJpaFacade.map(userEntity, User.class);
+                    return  modelMapper.map(userEntity, User.class);
                 });
     }
 
