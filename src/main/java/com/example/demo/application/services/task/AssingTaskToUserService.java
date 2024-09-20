@@ -20,14 +20,14 @@ public class AssingTaskToUserService implements AssignUserToTaskUseCase {
 
     @Override
     public Task assing(User user, Long id) {
-        var task = readTaskPort.findById().orElseThrow(NotFoundDomainException::new);
+        var task = readTaskPort.findById(id).orElseThrow(NotFoundDomainException::new);
         task.getMembers().add(user);
         return writeTaskPort.update(task).orElseThrow(NotFoundDomainException::new);
     }
 
     @Override
     public void removeUser(Long id, Long taskId) {
-        var task = readTaskPort.findById().orElseThrow(NotFoundDomainException::new);
+        var task = readTaskPort.findById(id).orElseThrow(NotFoundDomainException::new);
         task.getMembers().removeIf(user -> user.getId().equals(id));
          writeTaskPort.update(task).orElseThrow(NotFoundDomainException::new);
     }

@@ -31,7 +31,7 @@ public class TaskCrudService implements TaskCrudUseCase {
 
     @Override
     public void delete(Long id) {
-        readTaskPort.findById().orElseThrow(NotFoundDomainException::new);
+        readTaskPort.findById(id).orElseThrow(NotFoundDomainException::new);
 
     }
 
